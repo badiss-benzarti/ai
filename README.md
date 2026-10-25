@@ -12,11 +12,41 @@ Spring Boot 4.1 (Java 21) + Angular 21 + MySQL + Ollama.
 | Frontend | `cd frontend` then `npm install` (first time) and `npx ng serve` | http://localhost:4200 |
 
 If Ollama is not running, the module still works: generation and budget optimization fall back to a rule-based algorithm (`generatedByAi` / `aiUsed` = false).
+`GET /api/ai/status` tells whether the model is ready.
+
+### Ollama setup (once)
+
+1. Install it: `winget install Ollama.Ollama` (or the installer from ollama.com). Open a **new** terminal afterwards so `ollama` is on the PATH.
+   If it still isn't found, use the full path: `%LOCALAPPDATA%\Programs\Ollama\ollama.exe`.
+2. Download the model, about 4.7 GB (keep at least 8 GB free on the disk): `ollama pull qwen2.5:7b`
+3. Check: `ollama list` shows `qwen2.5:7b`.
+
+The backend loads the model when it starts and keeps it in memory for 30 minutes, so the first request is not slow.
+With a GPU (tested on an RTX 4060), an itinerary takes 15–35 s and a budget optimization about 10 s.
+
+### If a request gets stuck
+
+A small model can sometimes loop on its JSON answer. `OllamaClient` caps the answer at 3000 tokens, so the request fails after
+about a minute and the rule-based plan is used. If `ollama ps` still shows the model as busy (or "Stopping..."), Ollama is still
+generating for an old request and every new one waits behind it. Restart it: quit Ollama from the system tray (or kill
+`ollama.exe serve`) and start it again.
+
+## Tests
+
+`cd backend` then `mvnw.cmd test`. The AI tests use a fake Ollama, so they run in a few seconds without the model.
+They check that the module copes with a bad AI answer (invented ids, repeated activities, unreadable times, missing days or meals,
+overlapping times), that the optimizer stops as soon as the budget fits, and the cost maths.
+`TravelmateApplicationTests` starts the whole app, so it needs MySQL running.
 
 ## AI tasks
 
-1. **Generate the itinerary**: `AiItineraryService` sends the trip and the catalog (activities, restaurants, hotels with their ids and prices) to Ollama. The model returns a JSON plan that can only reference those ids. Java validates every id, takes prices from the catalog and computes the totals.
-2. **Fit the budget**: `BudgetOptimizerService` lists cheaper alternatives for each item. Ollama chooses the swaps and explains them, and Java applies only valid swaps (up to 3 rounds). A greedy algorithm finishes the job if needed.
+1. **Generate the itinerary**: `AiItineraryService` sends the trip and the catalog (activities, restaurants, hotels with their ids and prices) to Ollama.
+   Java first removes what the budget cannot afford and gives the model a limit per night and per day, because a 7B model is bad at adding prices.
+   The model returns a JSON plan that can only reference those ids. Java validates every id, takes prices from the catalog, adds a missing lunch or
+   dinner, fixes overlapping times and computes the totals. If the plan is still over budget, the optimizer below runs automatically.
+2. **Fit the budget**: `BudgetOptimizerService` lists cheaper alternatives for each item. Ollama chooses the swaps and explains them, and Java applies
+   only valid swaps, stopping as soon as the budget fits (up to 3 rounds). A greedy algorithm finishes the job if needed, and removing a paid
+   activity is the last resort.
 
 ## API (`/api/itineraries`)
 
