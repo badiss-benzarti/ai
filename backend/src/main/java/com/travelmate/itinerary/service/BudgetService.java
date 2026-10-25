@@ -46,6 +46,7 @@ public class BudgetService {
 
     @Transactional(readOnly = true)
     public List<ExpenseDto> getExpenses(Long itineraryId) {
+        itineraryService.findItinerary(itineraryId);   // 404 if it is not the user's itinerary
         return expenseRepository.findByItineraryIdOrderByDateAsc(itineraryId).stream().map(ExpenseDto::from).toList();
     }
 
@@ -62,9 +63,9 @@ public class BudgetService {
 
     @Transactional
     public void deleteExpense(Long expenseId) {
-        if (!expenseRepository.existsById(expenseId)) {
-            throw new EntityNotFoundException("Expense " + expenseId + " not found");
-        }
-        expenseRepository.deleteById(expenseId);
+        Expense expense = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new EntityNotFoundException("Expense " + expenseId + " not found"));
+        Itinerary it = itineraryService.findItinerary(expense.getItinerary().getId());   // 404 if not the user's
+        it.getExpenses().remove(expense);
     }
 }

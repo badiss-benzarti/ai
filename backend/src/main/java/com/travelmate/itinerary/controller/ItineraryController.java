@@ -23,22 +23,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItineraryController {
 
-    /** Until Module 1 (JWT) is integrated, every request belongs to user 1. */
-    private static final String DEFAULT_USER = "1";
-
     private final ItineraryService itineraryService;
     private final BudgetOptimizerService optimizerService;
     private final TripPlanningService planningService;
 
-    /** Trips of the user (from Module 2) to choose from in the UI. */
+    /** Trips of the logged-in user (from Module 2) to choose from in the UI. */
     @GetMapping("/trips")
-    public List<TripInfo> trips(@RequestParam(defaultValue = DEFAULT_USER) Long userId) {
-        return itineraryService.getTripsForUser(userId);
+    public List<TripInfo> trips() {
+        return itineraryService.getMyTrips();
     }
 
     @GetMapping
-    public List<ItineraryDto> list(@RequestParam(defaultValue = DEFAULT_USER) Long userId) {
-        return itineraryService.getForUser(userId);
+    public List<ItineraryDto> list() {
+        return itineraryService.getMine();
     }
 
     /**

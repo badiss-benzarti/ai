@@ -8,6 +8,7 @@ import com.travelmate.itinerary.entity.ItineraryDay;
 import com.travelmate.itinerary.entity.ItineraryItem;
 import com.travelmate.itinerary.integration.CatalogItem;
 import com.travelmate.itinerary.integration.CatalogProvider;
+import com.travelmate.itinerary.integration.CurrentUserProvider;
 import com.travelmate.itinerary.integration.TripInfo;
 import com.travelmate.itinerary.integration.TripInfoProvider;
 import com.travelmate.itinerary.repository.ItineraryDayRepository;
@@ -31,9 +32,11 @@ public class ItineraryService {
     private final TripInfoProvider tripProvider;
     private final CatalogProvider catalogProvider;
     private final AiItineraryService aiItineraryService;
+    private final CurrentUserProvider currentUser;
 
-    public List<TripInfo> getTripsForUser(Long userId) {
-        return tripProvider.getTripsForUser(userId);
+    /** Trips of the logged-in user (from Module 2) to choose from in the UI. */
+    public List<TripInfo> getMyTrips() {
+        return tripProvider.getTripsForUser(currentUser.currentUserId());
     }
 
     public List<CatalogItem> getCatalog(Long itineraryId, ItemType type) {
@@ -46,6 +49,9 @@ public class ItineraryService {
      */
     public ItineraryDto generate(Long tripId) {
         TripInfo trip = tripProvider.getTrip(tripId);
+        if (!currentUser.currentUserId().equals(trip.userId())) {
+            throw new EntityNotFoundException("Trip " + tripId + " not found");
+        }
         ItineraryPlan plan = aiItineraryService.plan(trip,
                 catalogProvider.getActivities(trip.destination()),
                 catalogProvider.getRestaurants(trip.destination()),
@@ -105,13 +111,15 @@ public class ItineraryService {
     @Transactional(readOnly = true)
     public ItineraryDto getByTrip(Long tripId) {
         return itineraryRepository.findByTripId(tripId).stream().findFirst()
+                .filter(this::isMine)
                 .map(ItineraryDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("No itinerary for trip " + tripId));
     }
 
     @Transactional(readOnly = true)
-    public List<ItineraryDto> getForUser(Long userId) {
-        return itineraryRepository.findByUserIdOrderByCreatedAtDesc(userId).stream().map(ItineraryDto::from).toList();
+    public List<ItineraryDto> getMine() {
+        return itineraryRepository.findByUserIdOrderByCreatedAtDesc(currentUser.currentUserId()).stream()
+                .map(ItineraryDto::from).toList();
     }
 
     @Transactional
@@ -122,7 +130,7 @@ public class ItineraryService {
     @Transactional
     public ItineraryDto addItem(Long itineraryId, Long dayId, ItemRequest request) {
         ItineraryDay day = dayRepository.findById(dayId)
-                .filter(d -> d.getItinerary().getId().equals(itineraryId))
+                .filter(d -> d.getItinerary().getId().equals(itineraryId) && isMine(d.getItinerary()))
                 .orElseThrow(() -> new EntityNotFoundException("Day " + dayId + " not found in itinerary " + itineraryId));
         ItineraryItem item = new ItineraryItem();
         apply(item, request, day.getItinerary().getDestination());
@@ -170,13 +178,23 @@ public class ItineraryService {
         return ItineraryDto.from(itineraryRepository.save(it));
     }
 
+    /**
+     * Every endpoint goes through here (or {@link #findItem}), so a user can only reach their own itineraries.
+     * Someone else's itinerary answers 404, like a missing one, so ids cannot be probed.
+     */
     Itinerary findItinerary(Long id) {
         return itineraryRepository.findById(id)
+                .filter(this::isMine)
                 .orElseThrow(() -> new EntityNotFoundException("Itinerary " + id + " not found"));
     }
 
     private ItineraryItem findItem(Long id) {
         return itemRepository.findById(id)
+                .filter(item -> isMine(item.getDay().getItinerary()))
                 .orElseThrow(() -> new EntityNotFoundException("Item " + id + " not found"));
+    }
+
+    private boolean isMine(Itinerary it) {
+        return currentUser.currentUserId().equals(it.getUserId());
     }
 }

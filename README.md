@@ -75,12 +75,14 @@ Module 6 never reads another module's tables. Everything goes through 2 interfac
 |---|---|---|
 | `TripInfoProvider` | `getTrip(id)`, `getTripsForUser(userId)` | Module 2 (trips) |
 | `CatalogProvider` | `getActivities / getRestaurants / getHotels(destination)` | Modules 3, 4, 5 |
+| `CurrentUserProvider` | `currentUserId()` | Module 1 (login / JWT) |
 
 Steps when merging:
 
-1. Write `RealTripInfoProvider` and `RealCatalogProvider` (annotated `@Component`) that call the other modules' services and convert their entities to `TripInfo` / `CatalogItem`.
+1. Write `RealTripInfoProvider`, `RealCatalogProvider` and `JwtCurrentUserProvider` (annotated `@Component`) that call the other modules' services
+   and convert their entities to `TripInfo` / `CatalogItem`.
 2. Delete the `integration/mock` package and `resources/mock/mock-data.json`.
-3. Replace the default `userId = 1` in `ItineraryController` with the logged-in user from Module 1 (JWT).
+3. Nothing else changes: every endpoint already checks that the itinerary belongs to `currentUserId()`, and someone else's itinerary answers 404.
 4. Frontend: copy `src/app/features/itinerary/` and add one line to the main `app.routes.ts`:
    ```ts
    { path: 'itinerary', loadChildren: () => import('./features/itinerary/itinerary.routes').then(m => m.ITINERARY_ROUTES) },
