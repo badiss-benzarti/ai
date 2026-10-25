@@ -22,12 +22,14 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class PdfService {
 
-    private static final Color PRIMARY = new Color(0x1E, 0x5A, 0x8C);
-    private static final Color LIGHT = new Color(0xEE, 0xF3, 0xF8);
+    // TravelMate design system: teal 600, navy, teal 50
+    private static final Color PRIMARY = new Color(0x0E, 0x7C, 0x86);
+    private static final Color NAVY = new Color(0x12, 0x26, 0x3A);
+    private static final Color LIGHT = new Color(0xEF, 0xF9, 0xF9);
     private static final DateTimeFormatter DATE = DateTimeFormatter.ofPattern("EEEE dd MMM yyyy", Locale.ENGLISH);
     private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
 
-    private static final Font TITLE = new Font(Font.HELVETICA, 22, Font.BOLD, PRIMARY);
+    private static final Font TITLE = new Font(Font.HELVETICA, 22, Font.BOLD, NAVY);
     private static final Font SUBTITLE = new Font(Font.HELVETICA, 11, Font.NORMAL, Color.DARK_GRAY);
     private static final Font DAY = new Font(Font.HELVETICA, 14, Font.BOLD, PRIMARY);
     private static final Font HEADER = new Font(Font.HELVETICA, 10, Font.BOLD, Color.WHITE);

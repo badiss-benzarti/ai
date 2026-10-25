@@ -1,29 +1,37 @@
 .topbar {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
   padding: 0 24px;
-  height: 60px;
-  background: var(--primary);
+  height: 64px;
+  background: var(--navy);
   color: #fff;
 }
 .brand {
-  font-size: 1.35rem;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: #fff;
   text-decoration: none;
+}
+.mark { width: 32px; height: 32px; }
+.wordmark {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 nav a {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   padding: 6px 0;
 }
+nav a:hover { color: #fff; }
 nav a.active {
   color: #fff;
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid var(--primary-on-navy);
 }
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 24px 16px 48px;
+  padding: 32px 16px 48px;
 }

@@ -9,7 +9,7 @@
 .legend { display: flex; gap: 16px; font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
 .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; }
 .planned { background: var(--primary); }
-.spent { background: var(--restaurant); }
+.spent { background: var(--accent); }
 
 .row { display: grid; grid-template-columns: 110px 1fr 120px; align-items: center; gap: 12px; padding: 6px 0; }
 .label { font-size: 0.8rem; font-weight: 600; }

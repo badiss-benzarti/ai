@@ -3,7 +3,7 @@
 .title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
 .title-row p { margin: 0; }
 .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.chip.ai { margin-left: 8px; background: #f3e8ff; color: #6b46c1; }
+.chip.ai { margin-left: 8px; background: var(--ai-light); color: var(--ai); font-weight: 500; }
 
 .figures { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 6px; }
 .over { color: var(--danger); }
@@ -60,9 +60,10 @@
   padding: 1px 6px; border-radius: 4px; color: #fff; background: var(--custom); margin-right: 6px; vertical-align: middle;
 }
 [data-type='ACTIVITY'] { background: var(--activity); }
-[data-type='RESTAURANT'] { background: var(--restaurant); }
+[data-type='RESTAURANT'] { background: var(--restaurant); color: var(--navy); }
 [data-type='HOTEL'] { background: var(--hotel); }
 [data-type='TRANSPORT'] { background: var(--transport); }
+[data-type='CUSTOM'] { color: var(--navy); }
 
 .center { display: flex; justify-content: center; padding: 40px; }
 
