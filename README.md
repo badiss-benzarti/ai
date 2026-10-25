@@ -2,6 +2,11 @@
 
 Spring Boot 4.1 (Java 21) + Angular 21 + MySQL + Ollama.
 
+More documents:
+- [docs/INTEGRATION.md](docs/INTEGRATION.md): what Module 6 needs from the other modules (for the group)
+- [docs/AI-DESIGN.md](docs/AI-DESIGN.md): how the AI tasks work and why (for the report)
+- [docs/DEMO.md](docs/DEMO.md): demo script and checklist
+
 ## Run it
 
 | What | Command | URL |
