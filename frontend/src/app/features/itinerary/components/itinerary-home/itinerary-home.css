@@ -1,0 +1,20 @@
+.page-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ai-status { font-size: 0.8rem; padding: 4px 10px; border-radius: 999px; background: var(--danger-light); color: var(--danger); }
+.ai-status.on { background: var(--success-light); color: var(--success); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.trip { display: flex; flex-direction: column; gap: 6px; }
+.trip-head { display: flex; justify-content: space-between; align-items: baseline; }
+.trip-head h2 { margin: 0; }
+.budget { font-weight: 600; color: var(--primary); }
+.trip p { margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+.status { font-size: 0.9rem; color: var(--success); }
+.status.over { color: var(--danger); }
+.actions { display: flex; gap: 8px; margin-top: auto; padding-top: 10px; }
+.small { font-size: 0.8rem; }
+.center { display: flex; justify-content: center; padding: 40px; }

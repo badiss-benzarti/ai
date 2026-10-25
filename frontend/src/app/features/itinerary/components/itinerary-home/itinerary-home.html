@@ -1,0 +1,65 @@
+<div class="page-head">
+  <h1>My itineraries</h1>
+  @if (aiStatus(); as ai) {
+    <span class="ai-status" [class.on]="ai.available">
+      {{ ai.available ? 'AI ready · ' + ai.model : 'AI offline · rule-based planning' }}
+    </span>
+  }
+</div>
+<p class="muted">Pick a trip and let the AI build a day-by-day plan that fits your interests and budget.</p>
+
+@if (error()) {
+  <div class="alert alert-error">{{ error() }}</div>
+}
+
+@if (loading()) {
+  <div class="center"><div class="spinner dark"></div></div>
+} @else {
+  <div class="grid">
+    @for (trip of trips(); track trip.id) {
+      @let it = itineraryByTrip()[trip.id];
+      <div class="card trip">
+        <div class="trip-head">
+          <h2>{{ trip.destination }}</h2>
+          <span class="budget">{{ trip.budget | currency: 'EUR' }}</span>
+        </div>
+        <p class="muted">
+          {{ trip.startDate | date: 'mediumDate' }} → {{ trip.endDate | date: 'mediumDate' }}
+          · {{ nights(trip) + 1 }} days
+        </p>
+        <div class="chips">
+          @for (interest of trip.interests; track interest) {
+            <span class="chip">{{ interest }}</span>
+          }
+        </div>
+
+        @if (it) {
+          <p class="status" [class.over]="it.overBudget">
+            Planned: {{ it.totalEstimatedCost | currency: 'EUR' }}
+            {{ it.overBudget ? '· over budget' : '· within budget' }}
+          </p>
+        }
+
+        <div class="actions">
+          @if (generatingTripId() === trip.id) {
+            <button class="btn btn-primary" disabled>
+              <span class="spinner"></span> The AI is planning your trip…
+            </button>
+          } @else if (it) {
+            <a class="btn btn-primary" [routerLink]="['/itinerary', it.id]">Open itinerary</a>
+            <button class="btn" [disabled]="generatingTripId() !== null" (click)="generate(trip)">Regenerate</button>
+          } @else {
+            <button class="btn btn-primary" [disabled]="generatingTripId() !== null" (click)="generate(trip)">
+              ✨ Generate with AI
+            </button>
+          }
+        </div>
+        @if (generatingTripId() === trip.id) {
+          <p class="muted small">This can take up to a minute with a local model.</p>
+        }
+      </div>
+    } @empty {
+      <p class="muted">No trips yet. Create one in the Trips module first.</p>
+    }
+  </div>
+}

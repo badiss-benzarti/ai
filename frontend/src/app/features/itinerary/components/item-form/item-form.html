@@ -1,0 +1,72 @@
+<div class="backdrop" (click)="cancelled.emit()">
+  <form class="card modal" [formGroup]="form" (ngSubmit)="submit()" (click)="$event.stopPropagation()">
+    <h3>{{ item() ? 'Edit item' : 'Add an item' }} · Day {{ day().dayNumber }}</h3>
+
+    @if (error()) {
+      <div class="alert alert-error">{{ error() }}</div>
+    }
+
+    <div class="form-grid">
+      <div>
+        <label for="type">Type</label>
+        <select id="type" formControlName="type">
+          @for (t of types; track t) {
+            <option [value]="t">{{ t }}</option>
+          }
+        </select>
+      </div>
+
+      @if (isCatalogType()) {
+        <div>
+          <label for="refId">Pick from the catalog</label>
+          <select id="refId" formControlName="refId">
+            <option [ngValue]="null">Custom (not in catalog)</option>
+            @for (c of catalog(); track c.id) {
+              <option [ngValue]="c.id">{{ c.name }} · {{ c.price | currency: 'EUR' }}</option>
+            }
+          </select>
+        </div>
+      } @else {
+        <div></div>
+      }
+
+      <div class="full">
+        <label for="name">Name</label>
+        <input id="name" formControlName="name" placeholder="e.g. Taxi to the airport" />
+        @if (form.controls.name.touched && form.controls.name.invalid) {
+          <small class="invalid">Name is required</small>
+        }
+      </div>
+
+      <div>
+        <label for="startTime">Start</label>
+        <input id="startTime" type="time" formControlName="startTime" />
+      </div>
+      <div>
+        <label for="endTime">End</label>
+        <input id="endTime" type="time" formControlName="endTime" />
+      </div>
+
+      <div>
+        <label for="unitPrice">Unit price (EUR)</label>
+        <input id="unitPrice" type="number" min="0" step="0.5" formControlName="unitPrice" />
+      </div>
+      <div>
+        <label for="quantity">Quantity</label>
+        <input id="quantity" type="number" min="1" formControlName="quantity" />
+      </div>
+
+      <div class="full">
+        <label for="notes">Notes</label>
+        <textarea id="notes" rows="2" formControlName="notes"></textarea>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="btn" (click)="cancelled.emit()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="saving()">
+        @if (saving()) { <span class="spinner"></span> } Save
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,77 @@
+{
+  "trips": [
+    { "id": 1, "userId": 1, "destination": "Rome", "startDate": "2026-11-10", "endDate": "2026-11-14", "budget": 800, "interests": ["history", "food", "culture"] },
+    { "id": 2, "userId": 1, "destination": "Paris", "startDate": "2026-12-05", "endDate": "2026-12-07", "budget": 600, "interests": ["art", "romantic", "food"] },
+    { "id": 3, "userId": 1, "destination": "Tunis", "startDate": "2027-04-02", "endDate": "2027-04-05", "budget": 350, "interests": ["culture", "beach", "shopping"] }
+  ],
+  "activities": [
+    { "id": 101, "destination": "Rome", "name": "Colosseum & Roman Forum guided tour", "category": "history", "price": 55, "durationMinutes": 180, "rating": 4.8 },
+    { "id": 102, "destination": "Rome", "name": "Colosseum self-guided ticket", "category": "history", "price": 18, "durationMinutes": 120, "rating": 4.5 },
+    { "id": 103, "destination": "Rome", "name": "Vatican Museums & Sistine Chapel", "category": "art", "price": 30, "durationMinutes": 210, "rating": 4.7 },
+    { "id": 104, "destination": "Rome", "name": "Pantheon visit", "category": "history", "price": 5, "durationMinutes": 45, "rating": 4.6 },
+    { "id": 105, "destination": "Rome", "name": "Trastevere food tour", "category": "food", "price": 89, "durationMinutes": 240, "rating": 4.9 },
+    { "id": 106, "destination": "Rome", "name": "Pasta-making class", "category": "food", "price": 65, "durationMinutes": 180, "rating": 4.8 },
+    { "id": 107, "destination": "Rome", "name": "Trevi Fountain & Spanish Steps walk", "category": "culture", "price": 0, "durationMinutes": 90, "rating": 4.4 },
+    { "id": 108, "destination": "Rome", "name": "Borghese Gallery", "category": "art", "price": 22, "durationMinutes": 120, "rating": 4.7 },
+    { "id": 109, "destination": "Rome", "name": "Catacombs of San Callisto", "category": "history", "price": 10, "durationMinutes": 90, "rating": 4.5 },
+    { "id": 110, "destination": "Rome", "name": "Vespa tour of Rome", "category": "adventure", "price": 120, "durationMinutes": 180, "rating": 4.8 },
+
+    { "id": 121, "destination": "Paris", "name": "Louvre Museum", "category": "art", "price": 22, "durationMinutes": 240, "rating": 4.7 },
+    { "id": 122, "destination": "Paris", "name": "Eiffel Tower summit", "category": "romantic", "price": 36, "durationMinutes": 120, "rating": 4.6 },
+    { "id": 123, "destination": "Paris", "name": "Seine dinner cruise", "category": "romantic", "price": 110, "durationMinutes": 150, "rating": 4.5 },
+    { "id": 124, "destination": "Paris", "name": "Seine sightseeing cruise", "category": "romantic", "price": 17, "durationMinutes": 60, "rating": 4.4 },
+    { "id": 125, "destination": "Paris", "name": "Musee d'Orsay", "category": "art", "price": 16, "durationMinutes": 180, "rating": 4.8 },
+    { "id": 126, "destination": "Paris", "name": "Montmartre walking tour", "category": "culture", "price": 0, "durationMinutes": 120, "rating": 4.5 },
+    { "id": 127, "destination": "Paris", "name": "French pastry workshop", "category": "food", "price": 75, "durationMinutes": 150, "rating": 4.7 },
+    { "id": 128, "destination": "Paris", "name": "Palace of Versailles", "category": "history", "price": 32, "durationMinutes": 300, "rating": 4.7 },
+
+    { "id": 141, "destination": "Tunis", "name": "Medina of Tunis guided walk", "category": "culture", "price": 15, "durationMinutes": 150, "rating": 4.6 },
+    { "id": 142, "destination": "Tunis", "name": "Bardo National Museum", "category": "history", "price": 4, "durationMinutes": 150, "rating": 4.7 },
+    { "id": 143, "destination": "Tunis", "name": "Carthage archaeological site", "category": "history", "price": 4, "durationMinutes": 180, "rating": 4.6 },
+    { "id": 144, "destination": "Tunis", "name": "Sidi Bou Said afternoon", "category": "culture", "price": 0, "durationMinutes": 180, "rating": 4.8 },
+    { "id": 145, "destination": "Tunis", "name": "Gammarth beach day", "category": "beach", "price": 10, "durationMinutes": 240, "rating": 4.3 },
+    { "id": 146, "destination": "Tunis", "name": "Souk shopping tour", "category": "shopping", "price": 8, "durationMinutes": 120, "rating": 4.2 },
+    { "id": 147, "destination": "Tunis", "name": "Tunisian cooking class", "category": "food", "price": 45, "durationMinutes": 180, "rating": 4.7 },
+    { "id": 148, "destination": "Tunis", "name": "Boat trip in the Gulf of Tunis", "category": "beach", "price": 60, "durationMinutes": 240, "rating": 4.4 }
+  ],
+  "restaurants": [
+    { "id": 201, "destination": "Rome", "name": "La Pergola", "category": "fine dining", "price": 70, "durationMinutes": 120, "rating": 4.9 },
+    { "id": 202, "destination": "Rome", "name": "Da Enzo al 29", "category": "roman", "price": 28, "durationMinutes": 75, "rating": 4.7 },
+    { "id": 203, "destination": "Rome", "name": "Pizzarium Bonci", "category": "pizza", "price": 12, "durationMinutes": 30, "rating": 4.6 },
+    { "id": 204, "destination": "Rome", "name": "Roscioli", "category": "roman", "price": 45, "durationMinutes": 90, "rating": 4.7 },
+    { "id": 205, "destination": "Rome", "name": "Trapizzino", "category": "street food", "price": 10, "durationMinutes": 30, "rating": 4.5 },
+    { "id": 206, "destination": "Rome", "name": "Armando al Pantheon", "category": "roman", "price": 40, "durationMinutes": 90, "rating": 4.6 },
+    { "id": 207, "destination": "Rome", "name": "Mercato Testaccio stalls", "category": "street food", "price": 14, "durationMinutes": 45, "rating": 4.5 },
+    { "id": 208, "destination": "Rome", "name": "Ginger (vegetarian)", "category": "vegetarian", "price": 22, "durationMinutes": 60, "rating": 4.3 },
+
+    { "id": 221, "destination": "Paris", "name": "Le Jules Verne", "category": "fine dining", "price": 95, "durationMinutes": 120, "rating": 4.6 },
+    { "id": 222, "destination": "Paris", "name": "Bouillon Chartier", "category": "french", "price": 20, "durationMinutes": 60, "rating": 4.4 },
+    { "id": 223, "destination": "Paris", "name": "Le Relais de l'Entrecote", "category": "french", "price": 35, "durationMinutes": 75, "rating": 4.5 },
+    { "id": 224, "destination": "Paris", "name": "L'As du Fallafel", "category": "street food", "price": 12, "durationMinutes": 30, "rating": 4.6 },
+    { "id": 225, "destination": "Paris", "name": "Cafe de Flore", "category": "cafe", "price": 30, "durationMinutes": 60, "rating": 4.2 },
+    { "id": 226, "destination": "Paris", "name": "Breizh Cafe", "category": "creperie", "price": 22, "durationMinutes": 60, "rating": 4.5 },
+
+    { "id": 241, "destination": "Tunis", "name": "Dar El Jeld", "category": "tunisian", "price": 35, "durationMinutes": 90, "rating": 4.7 },
+    { "id": 242, "destination": "Tunis", "name": "Fondouk El Attarine", "category": "tunisian", "price": 20, "durationMinutes": 75, "rating": 4.5 },
+    { "id": 243, "destination": "Tunis", "name": "Le Golfe (seafood)", "category": "seafood", "price": 30, "durationMinutes": 90, "rating": 4.5 },
+    { "id": 244, "destination": "Tunis", "name": "Lablabi stand, Medina", "category": "street food", "price": 3, "durationMinutes": 20, "rating": 4.4 },
+    { "id": 245, "destination": "Tunis", "name": "Cafe des Delices", "category": "cafe", "price": 8, "durationMinutes": 60, "rating": 4.6 },
+    { "id": 246, "destination": "Tunis", "name": "El Ali", "category": "tunisian", "price": 15, "durationMinutes": 60, "rating": 4.4 }
+  ],
+  "hotels": [
+    { "id": 301, "destination": "Rome", "name": "Hotel Artemide (4*)", "category": "hotel", "price": 210, "durationMinutes": null, "rating": 4.7 },
+    { "id": 302, "destination": "Rome", "name": "Hotel Santa Maria (3*)", "category": "hotel", "price": 140, "durationMinutes": null, "rating": 4.6 },
+    { "id": 303, "destination": "Rome", "name": "B&B Trastevere Home", "category": "bnb", "price": 85, "durationMinutes": null, "rating": 4.4 },
+    { "id": 304, "destination": "Rome", "name": "The Beehive Hostel", "category": "hostel", "price": 45, "durationMinutes": null, "rating": 4.3 },
+
+    { "id": 321, "destination": "Paris", "name": "Hotel Le Marais (4*)", "category": "hotel", "price": 230, "durationMinutes": null, "rating": 4.6 },
+    { "id": 322, "destination": "Paris", "name": "Hotel Montmartre (3*)", "category": "hotel", "price": 130, "durationMinutes": null, "rating": 4.3 },
+    { "id": 323, "destination": "Paris", "name": "Studio Bastille (Airbnb)", "category": "apartment", "price": 95, "durationMinutes": null, "rating": 4.4 },
+    { "id": 324, "destination": "Paris", "name": "Generator Paris Hostel", "category": "hostel", "price": 50, "durationMinutes": null, "rating": 4.1 },
+
+    { "id": 341, "destination": "Tunis", "name": "Dar El Medina (boutique)", "category": "hotel", "price": 120, "durationMinutes": null, "rating": 4.7 },
+    { "id": 342, "destination": "Tunis", "name": "Hotel Africa (4*)", "category": "hotel", "price": 75, "durationMinutes": null, "rating": 4.2 },
+    { "id": 343, "destination": "Tunis", "name": "Dar Ya guesthouse", "category": "bnb", "price": 45, "durationMinutes": null, "rating": 4.5 },
+    { "id": 344, "destination": "Tunis", "name": "Hotel Carlton (2*)", "category": "hotel", "price": 30, "durationMinutes": null, "rating": 3.9 }
+  ]
+}

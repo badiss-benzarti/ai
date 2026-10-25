@@ -1,0 +1,81 @@
+@if (error()) {
+  <div class="alert alert-error">{{ error() }}</div>
+}
+
+@if (summary(); as s) {
+  <div class="kpis">
+    <div class="card kpi">
+      <span class="muted">Budget</span>
+      <strong>{{ s.budget | currency: 'EUR' }}</strong>
+    </div>
+    <div class="card kpi">
+      <span class="muted">Planned</span>
+      <strong [class.over]="s.overBudget">{{ s.estimatedTotal | currency: 'EUR' }}</strong>
+      <small [class.over]="s.overBudget" [class.ok]="!s.overBudget">
+        {{ s.overBudget ? 'over by ' : 'left: ' }}{{ (s.overBudget ? -s.remainingEstimated : s.remainingEstimated) | currency: 'EUR' }}
+      </small>
+    </div>
+    <div class="card kpi">
+      <span class="muted">Spent so far</span>
+      <strong [class.over]="s.remainingActual < 0">{{ s.spentTotal | currency: 'EUR' }}</strong>
+      <small class="muted">left: {{ s.remainingActual | currency: 'EUR' }}</small>
+    </div>
+  </div>
+
+  <section class="card">
+    <h3>By category</h3>
+    <div class="legend">
+      <span><i class="swatch planned"></i> Planned</span>
+      <span><i class="swatch spent"></i> Spent</span>
+    </div>
+    @for (c of s.categories; track c.category) {
+      <div class="row">
+        <span class="label">{{ c.category }}</span>
+        <div class="bars">
+          <div class="bar planned" [style.width.%]="percent(c.estimated)"></div>
+          <div class="bar spent" [style.width.%]="percent(c.spent)"></div>
+        </div>
+        <span class="values">{{ c.estimated | currency: 'EUR' : 'symbol' : '1.0-0' }} / {{ c.spent | currency: 'EUR' : 'symbol' : '1.0-0' }}</span>
+      </div>
+    } @empty {
+      <p class="muted">Nothing planned yet.</p>
+    }
+  </section>
+}
+
+<section class="card">
+  <h3>Expenses</h3>
+  <form class="expense-form" [formGroup]="form" (ngSubmit)="addExpense()">
+    <select formControlName="category" aria-label="Category">
+      @for (c of categories; track c) {
+        <option [value]="c">{{ c }}</option>
+      }
+    </select>
+    <input type="number" min="0" step="0.5" formControlName="amount" placeholder="Amount (EUR)" aria-label="Amount"
+           [class.invalid]="form.controls.amount.touched && form.controls.amount.invalid" />
+    <input type="date" formControlName="date" aria-label="Date" />
+    <input formControlName="description" placeholder="Description" aria-label="Description" />
+    <button class="btn btn-primary" type="submit">Add</button>
+  </form>
+
+  @if (expenses().length) {
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Category</th><th>Description</th><th class="right">Amount</th><th></th></tr>
+      </thead>
+      <tbody>
+        @for (e of expenses(); track e.id) {
+          <tr>
+            <td>{{ e.date | date: 'mediumDate' }}</td>
+            <td>{{ e.category }}</td>
+            <td>{{ e.description }}</td>
+            <td class="right">{{ e.amount | currency: 'EUR' }}</td>
+            <td class="right"><button class="btn btn-sm btn-danger" (click)="deleteExpense(e)">✕</button></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <p class="muted">No expenses recorded yet. Add what you spend during the trip to follow your budget.</p>
+  }
+</section>
