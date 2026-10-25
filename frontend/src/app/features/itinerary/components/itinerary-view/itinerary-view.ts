@@ -8,6 +8,7 @@ import {
 } from '../../models/itinerary.models';
 import { ItemForm } from '../item-form/item-form';
 import { BudgetDashboard } from '../budget-dashboard/budget-dashboard';
+import { elapsedTimer } from '../../utils/elapsed-timer';
 
 /** Day-by-day itinerary with AI budget optimization and PDF export. */
 @Component({
@@ -29,6 +30,7 @@ export class ItineraryView implements OnInit {
   optimization = signal<OptimizationResult | null>(null);
   /** Item form state: day to add to, and item when editing. */
   form = signal<{ day: ItineraryDay; item: ItineraryItem | null } | null>(null);
+  timer = elapsedTimer();
 
   budgetUsage = computed(() => {
     const it = this.itinerary();
@@ -49,11 +51,13 @@ export class ItineraryView implements OnInit {
     const it = this.itinerary()!;
     this.busy.set('optimize');
     this.error.set(null);
+    this.timer.start();
     this.service.optimize(it.id).subscribe({
       next: result => {
         this.optimization.set(result);
         this.itinerary.set(result.itinerary);
         this.busy.set(null);
+        this.timer.stop();
       },
       error: err => this.fail(err),
     });
@@ -64,9 +68,11 @@ export class ItineraryView implements OnInit {
     this.busy.set('regenerate');
     this.error.set(null);
     this.optimization.set(null);
+    this.timer.start();
     this.service.generate(this.itinerary()!.tripId).subscribe({
       next: result => {
         this.busy.set(null);
+        this.timer.stop();
         this.itinerary.set(result.itinerary);
         this.optimization.set(result.optimization);
         this.router.navigate(['/itinerary', result.itinerary.id], { replaceUrl: true });
@@ -120,5 +126,6 @@ export class ItineraryView implements OnInit {
   private fail(err: unknown): void {
     this.error.set(apiError(err));
     this.busy.set(null);
+    this.timer.stop();
   }
 }

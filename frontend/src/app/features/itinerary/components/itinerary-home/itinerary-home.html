@@ -37,13 +37,14 @@
           <p class="status" [class.over]="it.overBudget">
             Planned: {{ it.totalEstimatedCost | currency: 'EUR' }}
             {{ it.overBudget ? '· over budget' : '· within budget' }}
+            @if (!it.generatedByAi) { <span class="chip rules" title="Ollama was unavailable when this plan was made">rule-based</span> }
           </p>
         }
 
         <div class="actions">
           @if (generatingTripId() === trip.id) {
             <button class="btn btn-primary" disabled>
-              <span class="spinner"></span> The AI is planning your trip…
+              <span class="spinner"></span> The AI is planning your trip… {{ timer.seconds() }} s
             </button>
           } @else if (it) {
             <a class="btn btn-primary" [routerLink]="['/itinerary', it.id]">Open itinerary</a>
@@ -55,7 +56,13 @@
           }
         </div>
         @if (generatingTripId() === trip.id) {
-          <p class="muted small">This can take up to a minute with a local model.</p>
+          <p class="muted small">
+            @if (aiStatus()?.available) {
+              The local AI usually needs 15 to 35 seconds. Please keep this page open.
+            } @else {
+              The AI is offline, so the plan is built by rules. It only takes a moment.
+            }
+          </p>
         }
       </div>
     } @empty {

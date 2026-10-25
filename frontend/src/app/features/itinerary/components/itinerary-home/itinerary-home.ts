@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { ItineraryService } from '../../services/itinerary.service';
 import { AiStatus, Itinerary, TripInfo, apiError } from '../../models/itinerary.models';
+import { elapsedTimer } from '../../utils/elapsed-timer';
 
 /** Lists the user's trips and lets them generate an itinerary with the AI. */
 @Component({
@@ -22,6 +23,7 @@ export class ItineraryHome implements OnInit {
   generatingTripId = signal<number | null>(null);
   error = signal<string | null>(null);
   aiStatus = signal<AiStatus | null>(null);
+  timer = elapsedTimer();
 
   ngOnInit(): void {
     this.service.getAiStatus().subscribe({ next: s => this.aiStatus.set(s), error: () => {} });
@@ -43,6 +45,7 @@ export class ItineraryHome implements OnInit {
   generate(trip: TripInfo): void {
     this.generatingTripId.set(trip.id);
     this.error.set(null);
+    this.timer.start();
     this.service.generate(trip.id).subscribe({
       // The view shows the automatic budget optimization passed in the navigation state
       next: result => this.router.navigate(['/itinerary', result.itinerary.id], {
@@ -51,6 +54,7 @@ export class ItineraryHome implements OnInit {
       error: err => {
         this.error.set(apiError(err));
         this.generatingTripId.set(null);
+        this.timer.stop();
       },
     });
   }

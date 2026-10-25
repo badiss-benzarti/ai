@@ -18,3 +18,4 @@
 .actions { display: flex; gap: 8px; margin-top: auto; padding-top: 10px; }
 .small { font-size: 0.8rem; }
 .center { display: flex; justify-content: center; padding: 40px; }
+.chip.rules { margin-left: 6px; background: var(--warning-light); color: var(--warning); }

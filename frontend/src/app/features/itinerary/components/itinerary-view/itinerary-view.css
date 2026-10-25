@@ -71,3 +71,5 @@
   .dot { display: none; }
   .item-actions { grid-column: 2 / -1; }
 }
+.chip.rules { margin-left: 8px; background: var(--warning-light); color: var(--warning); }
+.wait { margin-top: 8px; font-size: 0.85rem; }
